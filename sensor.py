@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-import datetime
+from datetime import datetime
 import json
 
 GPIO.setmode(GPIO.BOARD)
@@ -27,11 +27,11 @@ def rc_time (pin):
 try:
     while True:
         time.sleep(5)
-        time = rc_time(LDR_PIN)
+        c = rc_time(LDR_PIN)
         status = {
-            "occupied": time > 9999,
+            "occupied": c < 9999,
             "meeting": False,
-            "last_updated": datetime.now()
+            "last_updated": datetime.now().strftime("%I:%M:%S")
         }
         print(status)
         with open('status.json', 'w') as status_file:
