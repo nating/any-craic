@@ -19,7 +19,7 @@ def rc_time (pin):
 
     # Count how long it takes for the pin to go high
     count = 0
-    while(GPIO.input(pin) == GPIO.LOW):
+    while(GPIO.input(pin) == GPIO.LOW and count < 9999):
         count += 1
     return count
 
