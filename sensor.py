@@ -35,7 +35,7 @@ try:
         }
         print(status)
         with open('status.json', 'w') as status_file:
-            json.dump(data, status_file)
+            json.dump(status, status_file)
 except KeyboardInterrupt:
     pass
 finally:
