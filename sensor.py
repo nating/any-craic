@@ -4,7 +4,11 @@ from datetime import datetime
 import json
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
+GPIO.setup(12, GPIO.OUT)
 LDR_PIN = 7
+GREEN_LED_PIN = 11
+RED_LED_PIN = 12
 
 # Returns an integer representing the light sensed by the LDR
 def rc_time (pin):
@@ -28,14 +32,17 @@ try:
     while True:
         time.sleep(5)
         c = rc_time(LDR_PIN)
+        occupied = c < 9999
+        meeting = False
         status = {
-            "occupied": c < 9999,
-            "meeting": False,
+            "occupied": occupied,
+            "meeting": meeting,
             "last_updated": datetime.now().strftime("%I:%M:%S")
         }
-        print(status)
         with open('status.json', 'w') as status_file:
             json.dump(status, status_file)
+        GPIO.output(GREEN_LED_PIN, (occupied and not meeting))
+        GPIO.output(RED_LED_PIN, (occupied and meeting))
 except KeyboardInterrupt:
     pass
 finally:
