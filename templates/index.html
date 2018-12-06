@@ -62,22 +62,38 @@
         // Update the status on the page
         function updateStatus(status){
           body = document.getElementsByTagName('body')[0];
+
+          // Set design for page elements depending on status
           if(status.occupied && status.meeting){
-            document.getElementsByTagName('body')[0].className = "p-5 text-center text-white";
-            document.getElementsByTagName('body')[0].style.backgroundColor = '#ff221e';
-            document.getElementById('heading').innerHTML = 'Meeting 😬';
+            bootstrap = "p-5 text-center text-white";
+            bg = '#ff221e';
+            heading = 'Meeting 😬';
+            iconUrl = "{{ url_for('static', filename='grimace.png') }}";
           }
-          if(status.occupied){
-            document.getElementsByTagName('body')[0].className = "p-5 text-center text-white";
-            document.getElementsByTagName('body')[0].style.backgroundColor = "#33ee44";
-            document.getElementById('heading').innerHTML = 'Occupied 😁';
+          else if(status.occupied){
+            bootstrap = "p-5 text-center text-white";
+            bg = "#33ee44";
+            heading = 'Occupied 😁';
+            iconUrl = "{{ url_for('static', filename='smile.png') }}";
           }
           else{
-            document.getElementsByTagName('body')[0].className = "p-5 text-center";
-            document.getElementsByTagName('body')[0].style.backgroundColor = '#ffffff';
-            document.getElementById('heading').innerHTML = 'Empty 😪';
+            bootstrap = 'p-5 text-center';
+            bg = '#ffffff';
+            heading = 'Empty 😪';
+            iconUrl = "{{ url_for('static', filename='sleepy.png') }}";
           }
+
+          document.getElementsByTagName('body')[0].className = bootstrap;
+          document.getElementsByTagName('body')[0].style.backgroundColor = bg;
+          document.getElementById('heading').innerHTML = heading;
           document.getElementById('time').innerHTML = '(Updated at '+status.last_updated+')';
+
+          //Change the Favicon
+          var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = iconUrl;
+          document.getElementsByTagName('head')[0].appendChild(link);
         }
 
         // Initiate AJAX interval
