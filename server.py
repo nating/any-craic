@@ -13,5 +13,11 @@ def index():
         last_updated = status['last_updated']
         return render_template('index.html',occupied=occupied,meeting=meeting,last_updated=last_updated)
 
+@app.route('/status')
+def status():
+    with open('status.json') as status_file:
+        status = json.load(status_file)
+        return jsonify(status)
+
 if __name__ == '__main__':
     app.run(debug=False)

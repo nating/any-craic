@@ -22,19 +22,68 @@
   </head>
   {% if occupied and meeting %}
   <body class="p-5 text-center text-white" style="background-color:#ff221e;">
-  	<h1>Meeting 😬</h1>
+  	<h1 id="heading">Meeting 😬</h1>
   {% elif occupied %}
   <body class="p-5 text-center text-white" style="background-color:#33ee44;">
-  	<h1>Occupied 😁</h1>
+  	<h1 id="heading">Occupied 😁</h1>
   {% else %}
   <body class="p-5 text-center">
-  	<h1>Empty 😪</h1>
+  	<h1 id="heading">Empty 😪</h1>
   {% endif %}
 		<h1></h1>
 		<h1><br></h1>
-		<h1>(Updated at {{ last_updated }})</h1>
+		<h1 id="time">(Updated at {{ last_updated }})</h1>
 		<h1><br></h1>
 		<h1><br></h1>
 		<p>nating@tcd.ie</p>
+    <button onclick="pullStatus();">Click me</button>
+    <script>
+
+        // Pull the status from the server
+        function pullStatus(){
+          var xmlhttp;
+          if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp = new XMLHttpRequest();
+          } else { // code for IE6, IE5
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                  updateStatus(JSON.parse(xmlhttp.responseText));
+                  setTimeout(pullStatus, 5000);
+              }
+              else if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                  setTimeout(pullStatus, 5000);
+              }
+          }
+          xmlhttp.open("GET", "/status", true);
+          xmlhttp.send();
+        }
+
+        // Update the status on the page
+        function updateStatus(status){
+          body = document.getElementsByTagName('body')[0];
+          if(status.occupied && status.meeting){
+            document.getElementsByTagName('body')[0].className = "p-5 text-center text-white";
+            document.getElementsByTagName('body')[0].style.backgroundColor = '#ff221e';
+            document.getElementById('heading').innerHTML = 'Meeting 😬';
+          }
+          if(status.occupied){
+            document.getElementsByTagName('body')[0].className = "p-5 text-center text-white";
+            document.getElementsByTagName('body')[0].style.backgroundColor = "##33ee44";
+            document.getElementById('heading').innerHTML = 'Occupied 😁';
+          }
+          else{
+            document.getElementsByTagName('body')[0].className = "p-5 text-center";
+            document.getElementsByTagName('body')[0].style.backgroundColor = '#ffffff';
+            document.getElementById('heading').innerHTML = 'Empty 😪';
+          }
+          document.getElementById('time').innerHTML = '(Updated at '+status.last_updated+')';
+        }
+
+        // Initiate AJAX interval
+        pullStatus();
+
+    </script>
   </body>
 </html>
