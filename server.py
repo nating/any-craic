@@ -10,7 +10,7 @@ def index():
         status = json.load(status_file)
         occupied = status['occupied']
         meeting = status['meeting']
-        updated = status['last_updated']
+        last_updated = status['last_updated']
         return render_template('index.html',occupied=occupied,meeting=meeting,last_updated=last_updated)
 
 if __name__ == '__main__':

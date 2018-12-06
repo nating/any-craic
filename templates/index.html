@@ -6,18 +6,23 @@
      <meta property="og:title" content="Room Status">
      <meta property="og:type" content="website">
      <meta name="description" content="The current room status">
-     <meta property="og:image" content="{{ url_for('static', filename='img/icon.png') }}">
-     <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+     {% if occupied and meeting %}
+     <meta property="og:image" content="{{ url_for('static', filename='grimace.png') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='grimace.png') }}" type="image/x-icon">
+     {% elif occupied %}
+     <meta property="og:image" content="{{ url_for('static', filename='smile.png') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='smile.png') }}" type="image/x-icon">
+     {% else %}
+     <meta property="og:image" content="{{ url_for('static', filename='sleepy.png') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='sleepy.png') }}" type="image/x-icon">
+     {% endif %}
     <title>Room Status</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel='stylesheet' id='font-awesome-css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='all' />
     <link rel='stylesheet' id='bootstrap' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css' type='text/css' media='all' />
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/main.js') }}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=0.6666, maximum-scale=1.0, minimum-scale=0.6666">
   </head>
   {% if occupied and meeting %}
   <body class="p-5 text-center text-white" style="background-color:#ff221e;">
-  	<h1>Meeting 🚷</h1>
+  	<h1>Meeting 😬</h1>
   {% elif occupied %}
   <body class="p-5 text-center text-white" style="background-color:#33ee44;">
   	<h1>Occupied 😁</h1>
