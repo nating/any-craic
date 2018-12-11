@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 from datetime import datetime
 import json
+from firebase import firebase
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.OUT)
@@ -9,6 +10,8 @@ GPIO.setup(12, GPIO.OUT)
 LDR_PIN = 7
 GREEN_LED_PIN = 11
 RED_LED_PIN = 12
+
+firebase = firebase.FirebaseApplication('https://any-craic.firebaseio.com', authentication=None)
 
 # Returns an integer representing the light sensed by the LDR
 def rc_time (pin):
@@ -39,8 +42,7 @@ try:
             "meeting": meeting,
             "last_updated": datetime.now().strftime("%I:%M:%S")
         }
-        with open('status.json', 'w') as status_file:
-            json.dump(status, status_file)
+        firebase.put('/', name='status', data=status)
         GPIO.output(GREEN_LED_PIN, (occupied and not meeting))
         GPIO.output(RED_LED_PIN, (occupied and meeting))
 except KeyboardInterrupt:
