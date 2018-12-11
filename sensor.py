@@ -7,9 +7,11 @@ from firebase import firebase
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
+GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 LDR_PIN = 7
 GREEN_LED_PIN = 11
 RED_LED_PIN = 12
+BTN_PIN = 15
 
 firebase = firebase.FirebaseApplication('https://any-craic.firebaseio.com', authentication=None)
 
@@ -32,11 +34,16 @@ def rc_time (pin):
 
 ## When script is interupted, cleanup correctly
 try:
+    meeting = False
     while True:
         time.sleep(5)
         c = rc_time(LDR_PIN)
         occupied = c < 9999
-        meeting = False
+        if(not GPIO.input(BTN_PIN)):
+            print("button pressed")
+            meeting = not meeting
+        if(not occupied):
+            meeting = False
         status = {
             "occupied": occupied,
             "meeting": meeting,

@@ -36,6 +36,11 @@ TODO: Add circuit diagram
 * [How to Spoof a MAC Address](https://blog.macsales.com/43777-tech-101-spoofing-a-mac-address-in-macos-high-sierra)
 * [Using an LDR on a Raspberry Pi](https://pimylifeup.com/raspberry-pi-light-sensor/)
 * [Using LEDs on a Raspberry Pi](https://www.instructables.com/id/Controlling-Multiple-LEDs-With-Python-and-Your-Ras/)
+* [Using a button with a Raspberry Pi](http://razzpisampler.oreilly.com/ch07.html)
 * [Raspberry Pi 2 & 3 Pin Map](https://docs.microsoft.com/en-us/windows/iot-core/media/pinmappingsrpi/rp2_pinout.png)
 * [Creating a Raspberry Pi Case out of thicc cardboard](https://www.instructables.com/id/Design-Modelling-your-own-Raspberry-Pi-case-out-/)
 * [Creating a Raspberry Pi Case out of thin cardboard](https://www.reddit.com/r/raspberry_pi/comments/2cqd69/raspberry_pi_b_case_made_from_paper/)
+* [Installing Flask](https://pypi.org/project/Flask/)
+* [Run a script at start up on Raspberry Pi](https://www.stuffaboutcode.com/2012/06/raspberry-pi-run-program-at-start-up.html)
+
+
