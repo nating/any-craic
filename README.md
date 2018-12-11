@@ -42,5 +42,3 @@ TODO: Add circuit diagram
 * [Creating a Raspberry Pi Case out of thin cardboard](https://www.reddit.com/r/raspberry_pi/comments/2cqd69/raspberry_pi_b_case_made_from_paper/)
 * [Installing Flask](https://pypi.org/project/Flask/)
 * [Run a script at start up on Raspberry Pi](https://www.stuffaboutcode.com/2012/06/raspberry-pi-run-program-at-start-up.html)
-
-

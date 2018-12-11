@@ -5,34 +5,17 @@
      <meta property="og:site_name" content="Room Status">
      <meta property="og:title" content="Room Status">
      <meta property="og:type" content="website">
-     <meta name="description" content="The current room status">
-     {% if occupied and meeting %}
-     <meta property="og:image" content="{{ url_for('static', filename='grimace.png') }}">
-     <link rel="shortcut icon" href="{{ url_for('static', filename='grimace.png') }}" type="image/x-icon">
-     {% elif occupied %}
-     <meta property="og:image" content="{{ url_for('static', filename='smile.png') }}">
-     <link rel="shortcut icon" href="{{ url_for('static', filename='smile.png') }}" type="image/x-icon">
-     {% else %}
-     <meta property="og:image" content="{{ url_for('static', filename='sleepy.png') }}">
-     <link rel="shortcut icon" href="{{ url_for('static', filename='sleepy.png') }}" type="image/x-icon">
-     {% endif %}
+     <meta name="description" content="Room Status">
+     <meta property="og:image" content="./img/think.png">
+     <link rel="shortcut icon" href="./img/think.png" type="image/x-icon">
     <title>Room Status</title>
     <link rel='stylesheet' id='bootstrap' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css' type='text/css' media='all' />
     <meta name="viewport" content="width=device-width, initial-scale=0.6666, maximum-scale=1.0, minimum-scale=0.6666">
   </head>
-  {% if occupied and meeting %}
-  <body class="p-5 text-center text-white" style="background-color:#ff221e;">
-  	<h1 id="heading">Meeting 😬</h1>
-  {% elif occupied %}
-  <body class="p-5 text-center text-white" style="background-color:#33ee44;">
-  	<h1 id="heading">Occupied 😁</h1>
-  {% else %}
   <body class="p-5 text-center">
-  	<h1 id="heading">Empty 😪</h1>
-  {% endif %}
+  	<h1 id="heading">Loading... 🤔</h1>
 		<h1></h1>
 		<h1><br></h1>
-		<h1 id="time">(Updated at {{ last_updated }})</h1>
 		<h1><br></h1>
 		<h1><br></h1>
 		<p>nating@tcd.ie</p>
@@ -68,19 +51,19 @@
             bootstrap = "p-5 text-center text-white";
             bg = '#ff221e';
             heading = 'Meeting 😬';
-            iconUrl = "{{ url_for('static', filename='grimace.png') }}";
+            iconUrl = "./img/grimace.png";
           }
           else if(status.occupied){
             bootstrap = "p-5 text-center text-white";
             bg = "#33ee44";
             heading = 'Occupied 😁';
-            iconUrl = "{{ url_for('static', filename='smile.png') }}";
+            iconUrl = "./img/smile.png";
           }
           else{
             bootstrap = 'p-5 text-center';
             bg = '#ffffff';
             heading = 'Empty 😪';
-            iconUrl = "{{ url_for('static', filename='sleepy.png') }}";
+            iconUrl = "./img/sleepy.";
           }
 
           document.getElementsByTagName('body')[0].className = bootstrap;
