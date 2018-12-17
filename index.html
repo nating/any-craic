@@ -24,6 +24,12 @@
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
     <script>
 
+      // Enforce HTTP
+      var loc = window.location.href+'';
+      if (loc.indexOf('http://')==0){
+          window.location.href = loc.replace('http://','https://');
+      }
+
 
       //--------------- DATABASE INITIALISATION ---------------
 
