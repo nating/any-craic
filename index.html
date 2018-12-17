@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+     <meta charset="UTF-8">
      <meta property="og:site_name" content="Room Status">
      <meta property="og:title" content="Room Status">
      <meta property="og:type" content="website">
@@ -16,31 +16,44 @@
   	<h1 id="heading">Loading... 🤔</h1>
 		<h1></h1>
 		<h1><br></h1>
+		<h1 id="time"/>
 		<h1><br></h1>
 		<h1><br></h1>
 		<p>nating@tcd.ie</p>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
     <script>
 
-        // Pull the status from the server
-        function pullStatus(){
-          var xmlhttp;
-          if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp = new XMLHttpRequest();
-          } else { // code for IE6, IE5
-              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          xmlhttp.onreadystatechange = function() {
-              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                  updateStatus(JSON.parse(xmlhttp.responseText));
-                  setTimeout(pullStatus, 5000);
-              }
-              else if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                  setTimeout(pullStatus, 5000);
-              }
-          }
-          xmlhttp.open("GET", "/status", true);
-          xmlhttp.send();
+
+      //--------------- DATABASE INITIALISATION ---------------
+
+        var config = {
+          apiKey: "AIzaSyB6D7ZJQT8__hgNGU-WJVMvUizyXnEnqJY",
+          authDomain: "any-craic.firebaseapp.com",
+          databaseURL: "https://any-craic.firebaseio.com",
+          projectId: "any-craic",
+          storageBucket: "any-craic.appspot.com",
+          messagingSenderId: "657329189638"
+        };
+        firebase.initializeApp(config);
+        var db = firebase.database();
+
+        //---------------- PULLING DATA ----------------
+
+        //Returns promise containing the name of the module with module code 'id'
+        function getStatus(id){
+          return db.ref().child('status').once('value').then(function(snapshot){ return snapshot.val(); });
         }
+
+        // Pulls status and then updates UI, then tocks after another 5 seconds
+        function tickTock(){
+          getStatus().then(function(status){
+              updateStatus(status);
+              setTimeout(tickTock, 5000);
+          })
+        }
+
+        //---------------- UPDATING UI ----------------
 
         // Update the status on the page
         function updateStatus(status){
@@ -63,7 +76,7 @@
             bootstrap = 'p-5 text-center';
             bg = '#ffffff';
             heading = 'Empty 😪';
-            iconUrl = "./img/sleepy.";
+            iconUrl = "./img/sleepy.png";
           }
 
           document.getElementsByTagName('body')[0].className = bootstrap;
@@ -79,8 +92,9 @@
           document.getElementsByTagName('head')[0].appendChild(link);
         }
 
-        // Initiate AJAX interval
-        pullStatus();
+        //---------------- MAIN ----------------
+
+        tickTock();
 
     </script>
   </body>
