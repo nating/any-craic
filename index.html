@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.6666, maximum-scale=1.0, minimum-scale=0.6666">
   </head>
   <body class="p-5 text-center">
-  	<h1 id="heading">Loading... 🤔</h1>
+  	<h1 id="heading">Connecting... 🤔</h1>
 		<h1></h1>
 		<h1><br></h1>
 		<h1 id="time"/>
@@ -23,6 +23,8 @@
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-database.js"></script>
     <script>
+
+      POLL_INTERVAL_MS = 6000;
 
       // Enforce HTTP
       var loc = window.location.href+'';
@@ -44,6 +46,8 @@
         firebase.initializeApp(config);
         var db = firebase.database();
 
+        var LAST_TIME = null;
+
         //---------------- PULLING DATA ----------------
 
         //Returns promise containing the name of the module with module code 'id'
@@ -55,7 +59,8 @@
         function tickTock(){
           getStatus().then(function(status){
               updateStatus(status);
-              setTimeout(tickTock, 5000);
+              setTimeout(tickTock, POLL_INTERVAL_MS);
+              LAST_TIME = status.last_updated;
           })
         }
 
@@ -66,7 +71,13 @@
           body = document.getElementsByTagName('body')[0];
 
           // Set design for page elements depending on status
-          if(status.occupied && status.meeting){
+          if(status.last_updated==LAST_TIME){
+            bootstrap = "p-5 text-center text-white";
+            bg = '#000000';
+            heading = 'Box Disconnected 💀';
+            iconUrl = "./img/skull.png";
+          }
+          else if(status.occupied && status.meeting){
             bootstrap = "p-5 text-center text-white";
             bg = '#ff221e';
             heading = 'Meeting 😬';
@@ -100,7 +111,10 @@
 
         //---------------- MAIN ----------------
 
-        tickTock();
+        getStatus().then(function(status){
+            LAST_TIME = status.last_updated;
+            setTimeout(tickTock, POLL_INTERVAL_MS);
+        })
 
     </script>
   </body>
